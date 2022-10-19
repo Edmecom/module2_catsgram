@@ -16,17 +16,20 @@ import java.util.List;
 @RestController
 public class PostController {
     private static final Logger log = LoggerFactory.getLogger(PostController.class);
-    private final List<Post> posts = new ArrayList<>();
+    private final PostService postService;
+    @Autowired
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @GetMapping("/posts")
     public List<Post> findAll() {
-        log.debug("Текущее количество постов: {}", posts.size());
-        return posts;
+        return postService.findAll();
     }
 
     @PostMapping(value = "/post")
-    public void create(@RequestBody Post post) {
+    public Post create(@RequestBody Post post) {
         log.debug("Пост сохранен");
-        posts.add(post);
+        return postService.create(post);
     }
 }

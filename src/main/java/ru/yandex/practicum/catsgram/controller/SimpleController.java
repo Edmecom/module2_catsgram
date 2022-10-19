@@ -1,20 +1,21 @@
 package ru.yandex.practicum.catsgram.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController
+import javax.servlet.http.HttpServletRequest;
+
+@Controller
+@Slf4j
 public class SimpleController {
-
-    // создаём логер
-    private static final Logger log = LoggerFactory.getLogger(SimpleController.class);
-
-    @GetMapping("/home")
-    public String homePage() {
+    @RequestMapping("/home")
+    @ResponseBody
+    public String homePage(HttpServletRequest request) {
         // логируем факт получения запроса
-        log.info("Получен запрос.");
+        log.info("Получен запрос к эндпоинту: '{} {}', Строка параметров запроса: '{}'",
+                request.getMethod(), request.getRequestURI(), request.getQueryString());
 
         // возвращаем ответ в виде строки
         return "Котограм";
